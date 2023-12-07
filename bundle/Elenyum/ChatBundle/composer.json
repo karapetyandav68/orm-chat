@@ -1,0 +1,23 @@
+{
+  "name": "elenyum/chat-bundle",
+  "version": "0.0.1",
+  "type": "syfony-bundle",
+  "description": "Symfony chat bundle",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.1"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Elenyum\\ChatBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Elenyum\\ChatBundle\\": "tests/"
+    }
+  }
+}

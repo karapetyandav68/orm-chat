@@ -1,0 +1,3 @@
+chatbundle_routes:
+  type: annotation
+  resource: '../src/Application/Controller/'

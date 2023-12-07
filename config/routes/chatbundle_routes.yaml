@@ -1,0 +1,2 @@
+hellobundle_routes:
+  resource: '@ElenyumChatBundle/config/routes.yaml'

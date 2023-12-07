@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+    <style>
+        #chat-window {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 15px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<div id="chat-window"></div>
+<form id="chat-form">
+    <input type="text" id="message-input" placeholder="Type your message...">
+    <input type="file" id="image-input" accept="image/*">
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    const socket = new WebSocket('ws://localhost:8080');
+    const messageInput = document.getElementById('message-input');
+    const imageInput = document.getElementById('image-input');
+
+    socket.addEventListener('open', (event) => {
+        console.log('WebSocket connection opened:', event);
+    });
+
+    socket.addEventListener('message', (event) => {
+        const data = JSON.parse(event.data);
+        handleMessage(data);
+    });
+
+    document.getElementById('chat-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const messageInput = document.getElementById('message-input');
+        const imageInput = document.getElementById('image-input');
+
+        if (imageInput.files.length > 0) {
+            // Handle image upload
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imageData = e.target.result.split(',')[1];
+                sendMessage(messageInput.value, imageData);
+            };
+
+            reader.readAsDataURL(file);
+
+        } else {
+            // Handle text message
+            const message = { text: messageInput.value };
+            sendMessage(message);
+        }
+    });
+
+    function handleMessage(data) {
+        const chatWindow = document.getElementById('chat-window');
+        if (data.text) {
+            // Display text message
+            const messageElement = document.createElement('div');
+            messageElement.textContent = data.text;
+            chatWindow.appendChild(messageElement);
+            const imgElement = document.createElement('img');
+            imgElement.src = `data:image/jpeg;charset=utf-8;base64, ${data.image}`;
+            chatWindow.appendChild(imgElement);
+        } else if (data.image) {
+            // Display image
+            const imgElement = document.createElement('img');
+            imgElement.src = `data:image/jpeg;charset=utf-8;base64, ${data.image}`;
+            chatWindow.appendChild(imgElement);
+        }
+    }
+
+    function sendMessage(message, imageData) {
+        socket.send(JSON.stringify({ text: message, image: imageData }));
+        // Clear input fields
+        messageInput.value = '';
+        imageInput.value = '';
+    }
+
+</script>
+</body>
+</html>
