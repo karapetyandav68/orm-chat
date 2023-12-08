@@ -1,7 +1,7 @@
 <?php
 namespace Elenyum\ChatBundle;
 
-use Elenyum\ChatBundle\DependencyInjection\ElenyumChatExtension;
+use Elenyum\ChatBundle\Infrastructure\DependencyInjection\ElenyumChatExtension;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 

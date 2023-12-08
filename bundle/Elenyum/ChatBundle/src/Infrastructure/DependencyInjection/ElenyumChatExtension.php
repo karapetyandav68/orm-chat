@@ -1,6 +1,6 @@
 <?php
 
-namespace Elenyum\ChatBundle\DependencyInjection;
+namespace Elenyum\ChatBundle\Infrastructure\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,7 +13,7 @@ class ElenyumChatExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../../config')
+            new FileLocator(__DIR__ . '/../../../config')
         );
 
         $loader->load('services.yaml');

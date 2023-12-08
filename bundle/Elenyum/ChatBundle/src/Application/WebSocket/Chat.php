@@ -34,7 +34,7 @@ class Chat implements MessageComponentInterface
             $data = json_decode($msg, true);
 
             if (isset($data['image']) && !empty($data['image'])) {
-                $this->saveImage($data['image']);
+                $this->chatService->saveImage($data['image']);
             }
             $this->chatService->saveMessage($msg, $data['image']);
 
@@ -48,19 +48,6 @@ class Chat implements MessageComponentInterface
             throw $exception;
         }
 
-    }
-
-    private function saveImage(string $base64ImageData): string
-    {
-        // Implement logic to save the base64-encoded image data to a file
-        // You may use Symfony's Filesystem component or any other method
-
-        $imageName = uniqid('image_') . '.png';
-        $imagePath = 'public/uploads/' . $imageName;
-
-        file_put_contents($imagePath, base64_decode($base64ImageData));
-
-        return $imageName;
     }
 
     public function onClose(ConnectionInterface $conn)

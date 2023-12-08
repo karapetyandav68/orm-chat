@@ -29,4 +29,17 @@ class ChatService
         $this->entityManager->persist($message);
         $this->entityManager->flush();
     }
+
+    public function saveImage(string $base64ImageData): string
+    {
+        // Implement logic to save the base64-encoded image data to a file
+        // You may use Symfony's Filesystem component or any other method
+
+        $imageName = uniqid('image_') . '.png';
+        $imagePath = 'public/uploads/' . $imageName;
+
+        file_put_contents($imagePath, base64_decode($base64ImageData));
+
+        return $imageName;
+    }
 }
